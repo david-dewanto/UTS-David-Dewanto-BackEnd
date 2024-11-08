@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-development-key')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'uts-david-dewanto.vercel.app',  # Allow all Vercel subdomains
+    'https://uts-david-dewanto.vercel.app',  # Allow all Vercel subdomains
     'localhost', 
     '127.0.0.1'
 ]
