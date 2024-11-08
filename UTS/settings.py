@@ -161,10 +161,3 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
-
-# Also, add your Vercel backend domain to ALLOWED_HOSTS
-ALLOWED_HOSTS = [
-    'uts-david-dewanto-back-end.vercel.app',
-    '127.0.0.1',
-    'localhost'
-]
