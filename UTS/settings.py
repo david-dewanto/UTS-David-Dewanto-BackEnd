@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
-
-
+CORS_ALLOWED_ORIGINS = [
+    "https://uts-david-dewanto.vercel.app",
+    "https://127.0.0.1"
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,10 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sample',
-    'debug_toolbar'
+    'debug_toolbar',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
