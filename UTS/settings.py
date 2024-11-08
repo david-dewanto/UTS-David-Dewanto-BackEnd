@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sample',
+    'user',
     'debug_toolbar',
     'corsheaders'
 ]
