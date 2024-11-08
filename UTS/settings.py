@@ -26,7 +26,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-development-key')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'uts-david-dewanto-back-ortustbob-david-dewantos-projects.vercel.app',
+    'https://uts-david-dewanto-back-end.vercel.app',
+    'https://uts-david-dewanto-back-ortustbob-david-dewantos-projects.vercel.app',
     'https://uts-david-dewanto.vercel.app',  # Your main domain
     'localhost',
     '127.0.0.1'
