@@ -26,11 +26,11 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-development-key')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'https://uts-david-dewanto-back-end.vercel.app',
-    'https://uts-david-dewanto-back-ortustbob-david-dewantos-projects.vercel.app',
-    'https://uts-david-dewanto.vercel.app',  # Your main domain
+    'uts-david-dewanto-back-jpqpxkxpi-david-dewantos-projects.vercel.app',
+    'uts-david-dewanto-back-end.vercel.app',
+    '.vercel.app',
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user',
+    'sample',
     'debug_toolbar',
     'corsheaders'
 ]
