@@ -31,13 +31,21 @@ ALLOWED_HOSTS = [
     '.vercel.app',
     'localhost',
     '127.0.0.1',
+    '127.0.0.1:5500'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "https://uts-david-dewanto.vercel.app",
-    "https://127.0.0.1"
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
 ]
 # Application definition
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "https://uts-david-dewanto.vercel.app"
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -140,7 +148,6 @@ INTERNAL_IPS = [
   '127.0.0.1',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Temporarily for testing
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',

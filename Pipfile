@@ -7,6 +7,10 @@ name = "pypi"
 django = "*"
 django-debug-toolbar = "*"
 django-cors-headers = "*"
+firebase = "*"
+setuptools = "*"
+pyrebase4 = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 
