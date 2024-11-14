@@ -12,6 +12,7 @@ setuptools = "*"
 pyrebase4 = "*"
 google-cloud-storage = "*"
 firebase-admin = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
