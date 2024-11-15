@@ -105,9 +105,6 @@ Proyek dikonfigurasi untuk deployment di Vercel dengan file konfigurasi `vercel.
 2. Konfigurasi environment variables di Vercel
 3. Deploy menggunakan Vercel CLI atau GitHub integration
 
-## Kontribusi
-Ini adalah proyek akademik dan tidak terbuka untuk kontribusi.
-
 ---
 
 *Catatan: README ini merupakan bagian dari tugas mata kuliah PAWM II3140 dan mencakup informasi dasar tentang backend PCademy. Untuk informasi lebih detail, silakan merujuk ke dokumentasi lengkap di Edunex.*
