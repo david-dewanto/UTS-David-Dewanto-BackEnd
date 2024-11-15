@@ -99,6 +99,7 @@ def register(request):
             password = data.get('password')
             nim = data.get('nim')
             username = data.get('username')
+            fullname = data.get('fullname')
             
             print(f"Attempting registration with email: {email}")
             
@@ -112,6 +113,7 @@ def register(request):
                 'email': email,
                 'nim': nim,
                 'username': username,
+                'fullname' : fullname,
                 'timestamp': data.get('timestamp'),
             }
             
