@@ -82,30 +82,12 @@ UTS-David-Dewanto-BackEnd
    pipenv shell
    ```
 
-5. Jalankan migrasi database
-   ```bash
-   python manage.py migrate
-   ```
-
 ### Menjalankan Server Development
 1. Jalankan server Django
    ```bash
    python manage.py runserver
    ```
 2. Akses server di `http://localhost:8000`
-
-## Struktur Aplikasi
-
-### Aplikasi User
-- **models.py**: Mendefinisikan model data pengguna
-- **views.py**: Logika untuk penanganan request
-- **urls.py**: Konfigurasi routing
-- **admin.py**: Konfigurasi admin panel
-
-### Konfigurasi Utama (UTS/)
-- **settings.py**: Pengaturan utama Django
-- **urls.py**: URL routing utama
-- **wsgi.py** & **asgi.py**: Konfigurasi server
 
 ## API Endpoints
 
@@ -123,35 +105,8 @@ Proyek dikonfigurasi untuk deployment di Vercel dengan file konfigurasi `vercel.
 2. Konfigurasi environment variables di Vercel
 3. Deploy menggunakan Vercel CLI atau GitHub integration
 
-## Pengembangan
-
-### Menambah Fitur Baru
-1. Buat branch baru
-2. Implementasi fitur
-3. Jalankan tests
-4. Buat migrasi jika diperlukan
-   ```bash
-   python manage.py makemigrations
-   ```
-5. Terapkan migrasi
-   ```bash
-   python manage.py migrate
-   ```
-
-### Testing
-Jalankan tests dengan perintah:
-```bash
-python manage.py test
-```
-
-## Informasi Tambahan
-Untuk dokumentasi lengkap dan detail proyek, silakan lihat laporan lengkap yang tersedia di Edunex.
-
 ## Kontribusi
 Ini adalah proyek akademik dan tidak terbuka untuk kontribusi.
-
-## Lisensi
-Proyek ini dibuat untuk tujuan akademik. Hak cipta dilindungi.
 
 ---
 
