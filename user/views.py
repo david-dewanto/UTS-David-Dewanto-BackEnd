@@ -45,6 +45,17 @@ def postSign(request):
             print(f"Attempting login with email: {email}")
             
             user = auth.sign_in_with_email_and_password(email, password)
+
+            user_info = auth.get_account_info(user['idToken'])
+            email_verified = user_info['users'][0]['emailVerified']
+
+            if not email_verified:
+                response = JsonResponse({
+                    'status': 'error',
+                    'message': 'EMAIL_NOT_VERIFIED'
+                }, status=403)
+                response["Access-Control-Allow-Origin"] = "*"
+                return response
             
             response = JsonResponse({
                 'status': 'success',
@@ -86,14 +97,40 @@ def register(request):
             data = json.loads(request.body)
             email = data.get('email')
             password = data.get('password')
+            nim = data.get('nim')
+            username = data.get('username')
             
             print(f"Attempting registration with email: {email}")
             
             user = auth.create_user_with_email_and_password(email, password)
+            user_id = user['localId']
+            id_token = user['idToken']
+            
+            auth.send_email_verification(id_token)
+            
+            user_data = {
+                'email': email,
+                'nim': nim,
+                'username': username,
+                'timestamp': data.get('timestamp'),
+            }
+            
+            db = firebase.database()
+            db.credentials = {'token': id_token} 
+            
+            db.child("users").child(user_id).child("profile").set(user_data, token=id_token)
+            
+            initial_progress = {
+                'module': 1,
+                'part': 1,
+                'subpart': 1,
+                'timestamp': data.get('timestamp')
+            }
+            db.child("users").child(user_id).child("progress").set(initial_progress, token=id_token)
             
             response = JsonResponse({
                 'status': 'success',
-                'message': 'Registration successful',
+                'message': 'Registration successful. Please verify your email before logging in.',
             })
             
             response["Access-Control-Allow-Origin"] = "*"
@@ -176,18 +213,17 @@ def getProgress(request):
             decoded_token = auth.get_account_info(token)
             user_id = decoded_token['users'][0]['localId']
 
-            # Create a new database instance with the token
             db = firebase.database()
-            db.credentials = {'token': token}  # Changed this line
+            db.credentials = {'token': token} 
 
             data = json.loads(request.body)
             
-            progress = db.child("users").child(user_id).child("progress").get(token=token)  # Added token parameter
+            progress = db.child("users").child(user_id).child("progress").get(token=token)  
 
             if (progress.val()):
                 progress_data = progress.val()
             else:
-                progress_data = save_initial_progress(user_id, data.get('timestamp'), token)  # Pass token to save_initial_progress
+                progress_data = save_initial_progress(user_id, data.get('timestamp'), token)  
             
             response = JsonResponse({
                 'status': 'success',
@@ -206,7 +242,7 @@ def getProgress(request):
             response["Access-Control-Allow-Origin"] = "*"
             return response
 
-def save_initial_progress(user_id, timestamp, token):  # Added token parameter
+def save_initial_progress(user_id, timestamp, token): 
     progress_data = {
         'module': 1,
         'part': 1,
@@ -215,7 +251,7 @@ def save_initial_progress(user_id, timestamp, token):  # Added token parameter
     }
     db = firebase.database()
     db.credentials = {'token': token}
-    db.child("users").child(user_id).child("progress").set(progress_data, token=token)  # Added token parameter
+    db.child("users").child(user_id).child("progress").set(progress_data, token=token) 
     return progress_data
 
 @csrf_exempt
@@ -236,10 +272,8 @@ def saveProgress(request):
             decoded_token = auth.get_account_info(token)
             user_id = decoded_token['users'][0]['localId']
 
-            # Create a new database instance with the token
             db = firebase.database()
-            db.credentials = {'token': token}  # Changed this line
-
+            db.credentials = {'token': token} 
             data = json.loads(request.body)
             progress_data = {
                 'module': data.get('module'),
@@ -260,6 +294,62 @@ def saveProgress(request):
             
         except Exception as e:
             print(f"Error saving progress: {str(e)}")
+            response = JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=400)
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
+        
+@csrf_exempt
+def getUserData(request):
+    if request.method == 'POST':
+        try:
+            auth_header = request.headers.get('Authorization')
+            if not auth_header or not auth_header.startswith('Bearer '):
+                response = JsonResponse({
+                    'status': 'error',
+                    'message': 'No valid authorization token provided'
+                }, status=401)
+                response["Access-Control-Allow-Origin"] = "*"
+                return response
+
+            token = auth_header.split(' ')[1]
+            
+            decoded_token = auth.get_account_info(token)
+            user_id = decoded_token['users'][0]['localId']
+
+            data = json.loads(request.body)
+            timestamp = data.get('timestamp')
+
+            db = firebase.database()
+            db.credentials = {'token': token}
+
+            profile = db.child("users").child(user_id).child("profile").get(token=token)
+
+            if profile.val():
+                profile_data = profile.val()
+                profile_data['timestamp'] = timestamp
+                
+                db.child("users").child(user_id).child("progress").update({
+                    'timestamp': timestamp
+                }, token=token)
+
+                response = JsonResponse({
+                    'status': 'success',
+                    'profile': profile_data
+                })
+            else:
+                response = JsonResponse({
+                    'status': 'error',
+                    'message': 'Profile not found'
+                }, status=404)
+            
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
+            
+        except Exception as e:
+            print(f"Error retrieving user profile: {str(e)}")
             response = JsonResponse({
                 'status': 'error',
                 'message': str(e)
